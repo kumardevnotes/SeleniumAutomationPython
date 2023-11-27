@@ -1,8 +1,8 @@
 import allure
 import pytest
+import configparser
 from allure_commons.types import AttachmentType
 from selenium import webdriver
-from utilities import ReadConfigurations
 
 
 @pytest.fixture()
@@ -24,7 +24,9 @@ def pytest_runtest_makereport(item, call):
 
 @pytest.fixture()
 def setup_and_teardown(request):
-    browser = ReadConfigurations.read_configuration("basic info","browser")
+    config = configparser.RawConfigParser()
+    config.read('configurations\config.ini')
+    browser =  config.get('data', 'browser')
     global driver
     driver = None
     if browser.__eq__("chrome"):
@@ -36,7 +38,7 @@ def setup_and_teardown(request):
     else:
         print("Provide a valid browser name from this list chrome/firefox/edge")
     driver.maximize_window()
-    app_url = ReadConfigurations.read_configuration("basic info","url")
+    app_url = config.get('data', 'url')
     driver.get(app_url)
     request.cls.driver = driver
     yield

@@ -20,8 +20,4 @@ class TestSearch(BaseTest):
 
 
 
- def verify_Reports_With_Database(self,email_address,password):
-        home_page = HomePage(self.driver)
-        login_page = home_page.navigate_to_login_page()
-        account_page = login_page.login_to_application(email_address,password)
-        assert account_page.display_status_of_edit_your_account_information_option()
+
